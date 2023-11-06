@@ -3,8 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework import generics
 from rest_framework.parsers import MultiPartParser, FormParser
-from .models import Groups, Channel, GroupMessage, VideoChannel
-from .serializers import GroupsSerializer, ChannelSerializer, GroupMemberSerializer, GroupMessageSerializer, VideoChannelSerializer
+from .models import Groups, Channel, GroupMessage, VideoChannel, VoiceChannel
+from .serializers import GroupsSerializer, ChannelSerializer, GroupMemberSerializer, GroupMessageSerializer, VideoChannelSerializer, VoiceChannelSerializer
 from rest_framework.filters import SearchFilter
 
 class CreateGroupView(generics.ListCreateAPIView):
@@ -23,6 +23,17 @@ class CreateVideoChannelView(generics.ListCreateAPIView):
     queryset = VideoChannel.objects.all()
     serializer_class = VideoChannelSerializer
     parser_classes = (MultiPartParser, FormParser)
+
+class CreateVoiceChannelView(generics.ListCreateAPIView):
+    queryset = VideoChannel.objects.all()
+    serializer_class = VoiceChannelSerializer
+    parser_classes = (MultiPartParser, FormParser)
+
+class GroupVoiceChannelView(generics.ListAPIView):
+    serializer_class = VideoChannelSerializer
+    def get_queryset(self):
+        id = int(self.kwargs['id'])
+        return VoiceChannel.objects.filter(group=id)
 
 class GroupVideoChannelView(generics.ListAPIView):
     serializer_class = VideoChannelSerializer

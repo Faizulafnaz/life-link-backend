@@ -17,5 +17,9 @@ class DirectMessage(models.Model):
 
     def __str__(self):
         return f"{self.sender} - {self.reciever}"
+
+class MessageRequest(models.Model):
+    thread_name=models.CharField(null=True,blank=True,max_length=200)
+    is_accepted = models.BooleanField(default=False)
     
     

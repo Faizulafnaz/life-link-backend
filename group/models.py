@@ -18,6 +18,10 @@ class VideoChannel(models.Model):
     group = models.ForeignKey(Groups, on_delete=models.CASCADE)
     is_admin_only = models.BooleanField(default=False)
 
+class VoiceChannel(models.Model):
+    name = models.CharField(max_length=50)
+    group = models.ForeignKey(Groups, on_delete=models.CASCADE)
+    is_admin_only = models.BooleanField(default=False)
 
 class GroupMember(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

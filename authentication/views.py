@@ -79,7 +79,6 @@ class VarifyOTP(APIView):
                 email = serializer.data['email']
                 otp = serializer.data['otp']
                 try:
-                
                     user = CustomUser.objects.get(email = email)
        
                     if user.otp != otp:

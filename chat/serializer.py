@@ -25,12 +25,11 @@ class ChatListSerializer(serializers.ModelSerializer):
 
     profile_picture=serializers.SerializerMethodField()
     username=serializers.SerializerMethodField()
-    user_id=serializers.SerializerMethodField()
     id = serializers.SerializerMethodField()
 
     class Meta:
         model=DirectMessage
-        fields=['username', 'profile_picture', 'id', 'user_id']
+        fields=['username', 'profile_picture', 'id',]
 
     def get_username(self,obj):
         return obj
@@ -50,3 +49,8 @@ class UserReadOnlySerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'id', 'is_varified', 'otp', 'date_of_birth', 'profile_picture', 'first_name', 'last_name']
+
+class MessageRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MessageRequest
+        fields = '__all__'

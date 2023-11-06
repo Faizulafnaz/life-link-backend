@@ -17,6 +17,11 @@ class VideoChannelSerializer(serializers.ModelSerializer):
         model = VideoChannel
         fields = ('id', 'name', 'group', 'is_admin_only')
 
+class VoiceChannelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VoiceChannel
+        fields = ('id', 'name', 'group', 'is_admin_only')
+
 class GroupMemberSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
     group_id = serializers.IntegerField()

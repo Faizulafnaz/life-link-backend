@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import DirectMessage
-from .serializer import MessageSerializer, UserReadOnlySerializer, ChatListSerializer
+from .models import DirectMessage, MessageRequest
+from .serializer import MessageSerializer, UserReadOnlySerializer, ChatListSerializer, MessageRequestSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import *
 from rest_framework.response import Response
@@ -51,3 +51,27 @@ class ChatListView(ListAPIView):
             distinct_usernames.add(entry['receiver__username'])
         return distinct_usernames
 
+
+class MessageRequestView(ListCreateAPIView):
+    serializer_class = MessageRequestSerializer
+    def get_queryset(self):
+        user1 =  int(self.kwargs['user1'])
+        user2 = int(self.kwargs['user2'])
+        thread_name = (
+            f"{user1}_{user2}"
+            if int(user1) > int(user2)
+            else f"{user2}_{user1}"
+        )
+        data, created = MessageRequest.objects.get_or_create(thread_name = thread_name)
+
+        return MessageRequest.objects.filter(thread_name=thread_name)
+
+class RequestUpdateView(RetrieveUpdateAPIView):
+    queryset = MessageRequest.objects.all()
+    serializer_class = MessageRequestSerializer
+    lookup_field = 'id'
+    
+
+
+        
+        
