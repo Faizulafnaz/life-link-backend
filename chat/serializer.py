@@ -26,10 +26,11 @@ class ChatListSerializer(serializers.ModelSerializer):
     profile_picture=serializers.SerializerMethodField()
     username=serializers.SerializerMethodField()
     id = serializers.SerializerMethodField()
+    unread = serializers.SerializerMethodField()
 
     class Meta:
         model=DirectMessage
-        fields=['username', 'profile_picture', 'id',]
+        fields=['username', 'profile_picture', 'id', 'unread']
 
     def get_username(self,obj):
         return obj
@@ -43,6 +44,10 @@ class ChatListSerializer(serializers.ModelSerializer):
         user = CustomUser.objects.get(username=obj)
         return user.id
     
+    def get_unread(self, obj):
+        user = self.context.get('user_id')
+        unread_count = DirectMessage.objects.filter(receiver=int(user), sender__username=obj, is_read=False).count()
+        return unread_count
 
 
 class UserReadOnlySerializer(serializers.ModelSerializer):

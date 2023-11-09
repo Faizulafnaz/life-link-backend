@@ -37,7 +37,7 @@ class UserList(ListCreateAPIView):
 
 class ChatListView(ListAPIView):
     serializer_class = ChatListSerializer
-
+    user_id = None
     def get_queryset(self):
         user_id = int(self.kwargs['user_id'])
         distinct_senders = DirectMessage.objects.filter(receiver__id=user_id).values('sender__username').distinct()
@@ -50,6 +50,12 @@ class ChatListView(ListAPIView):
         for entry in distinct_receivers:
             distinct_usernames.add(entry['receiver__username'])
         return distinct_usernames
+    
+    def get_serializer_context(self):
+        context = super(ChatListView, self).get_serializer_context()
+        user_id = int(self.kwargs['user_id'])
+        context.update({'user_id': user_id})
+        return context
 
 
 class MessageRequestView(ListCreateAPIView):
@@ -65,6 +71,17 @@ class MessageRequestView(ListCreateAPIView):
         data, created = MessageRequest.objects.get_or_create(thread_name = thread_name)
 
         return MessageRequest.objects.filter(thread_name=thread_name)
+
+class UpdateMessageStatus(APIView):
+    def post(self, request):
+        user_id = request.data.get('user_id')
+        sender_id = request.data.get('sender_id')
+
+        t = DirectMessage.objects.filter(sender=sender_id, receiver=user_id, is_read=False)
+        t.update(is_read=True)
+        print(t.count())
+        
+        return Response('ok')
 
 class RequestUpdateView(RetrieveUpdateAPIView):
     queryset = MessageRequest.objects.all()

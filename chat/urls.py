@@ -8,4 +8,5 @@ urlpatterns = [
     path("chat-list/<int:user_id>/", ChatListView.as_view()),
     path('message-request/<int:user1>/<int:user2>/', MessageRequestView.as_view()),
     path('accept_request/<int:id>/', RequestUpdateView.as_view()),
+    path('message-update/', UpdateMessageStatus.as_view()),
 ]

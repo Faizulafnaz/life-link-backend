@@ -39,14 +39,9 @@ class Register(APIView):
 
     def post(self, request, format=None):
         serializer = UserRegister(data=request.data)
-        # data = {}
         if serializer.is_valid():
             serializer.save()
             data = serializer.data
-            sent_email_via_otp(data['email'])
-            # data['response'] = 'registered'
-            # data['username'] = account.username
-            # data['email'] = account.email
         else:
             data=serializer.errors
         return Response(data)
@@ -71,36 +66,10 @@ class Register(APIView):
         return Response(serializer.errors) 
     
 class VarifyOTP(APIView):
-    def post(self, request):
-        try:
-            data = request.data
-            serializer = VarifyAccountSerializer(data = data)
-            if serializer.is_valid():
-                email = serializer.data['email']
-                otp = serializer.data['otp']
-                try:
-                    user = CustomUser.objects.get(email = email)
-       
-                    if user.otp != otp:
-                        return Response({
-                            'status' : 400,
-                            'message': 'something went wrong',
-                            'data':'wrong otp'
-                        })
-                    else:
-                        user.is_varified = True
-                        user.save()
-                        return Response({
-                            'status' : 200,
-                            'message': 'account varified',
-                            'data': {}
-                        })
-                except:
-                    return Response({
-                            'status' : 400,
-                            'message': 'something went wrong',
-                            'data':'invalid email id'
-                        })
-        except Exception as e:
-            print(e)
-
+    @permission_classes([IsAuthenticated])
+    def patch(self, request):
+        data = request.data
+        serializer = VarifyAccountSerializer(data = data)
+        if serializer.is_valid():
+            return Response(serializer.data)
+        return Response(serializer.errors)

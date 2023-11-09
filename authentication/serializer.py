@@ -44,4 +44,23 @@ class UserRegister(ModelSerializer):
 class VarifyAccountSerializer(serializers.Serializer):
     email = serializers.EmailField()
     otp = serializers.CharField()
+
+    def validate(self, data):
+        email = data.get('email')
+        otp = data.get('otp')
+
+        try:
+            user = CustomUser.objects.get(email=email)
+       
+            if user.otp != otp:
+                raise serializers.ValidationError('Invalid OTP')
+
+            # Update user verification status
+            user.is_verified = True
+            user.save()
+        except CustomUser.DoesNotExist:
+            raise serializers.ValidationError('Invalid email')
+
+        return data
+
     
