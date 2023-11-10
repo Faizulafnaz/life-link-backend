@@ -13,3 +13,6 @@ psycopg2
 python-decouple
 redis
 
+cloudinary
+
+django-cloudinary-storage
