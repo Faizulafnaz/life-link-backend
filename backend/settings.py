@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'authentication.CustomUser'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',  # The domain of your frontend application
+    'http://localhost:3000', "https://life-link-frontend.vercel.app",# The domain of your frontend application
 ]
 # CORS_ALLOWED_ORIGINS = True
 
