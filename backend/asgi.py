@@ -15,7 +15,7 @@ from django.urls import path
 import django
 
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Backend.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 django.setup()
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
