@@ -31,8 +31,9 @@ ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'authentication.CustomUser'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://*.*', 'https://*.*'  # The domain of your frontend application
+    'http://localhost:3000',  # The domain of your frontend application
 ]
+# CORS_ALLOWED_ORIGINS = True
 
 CORS_ALLOW_METHODS = [
     "GET",

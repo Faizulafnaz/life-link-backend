@@ -1,0 +1,15 @@
+channels
+channels-redis
+
+daphne
+Django
+django-cors-headers
+djangorestframework
+djangorestframework-simplejwt
+
+Pillow
+psycopg2
+
+python-decouple
+redis
+
