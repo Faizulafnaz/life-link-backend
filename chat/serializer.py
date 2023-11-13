@@ -38,7 +38,7 @@ class ChatListSerializer(serializers.ModelSerializer):
     def get_profile_picture(self, obj):
         user = CustomUser.objects.get(username=obj)
         if user.profile_picture:
-            return 'http://127.0.0.1:8000' + user.profile_picture.url
+            return user.profile_picture.url
     
     def get_id(self, obj):
         user = CustomUser.objects.get(username=obj)
