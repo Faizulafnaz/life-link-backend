@@ -8,6 +8,7 @@ from .serializer import UserRegister, VarifyAccountSerializer
 from .emails import sent_email_via_otp
 from .models import CustomUser
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 # Create your views here.
 
 @api_view(['GET'])
@@ -66,10 +67,9 @@ class Register(APIView):
         return Response(serializer.errors) 
     
 class VarifyOTP(APIView):
-    @permission_classes([IsAuthenticated])
     def patch(self, request):
         data = request.data
         serializer = VarifyAccountSerializer(data = data)
         if serializer.is_valid():
             return Response(serializer.data)
-        return Response(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

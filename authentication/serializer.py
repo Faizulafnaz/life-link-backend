@@ -56,7 +56,7 @@ class VarifyAccountSerializer(serializers.Serializer):
                 raise serializers.ValidationError('Invalid OTP')
 
             # Update user verification status
-            user.is_verified = True
+            user.is_varified = True
             user.save()
         except CustomUser.DoesNotExist:
             raise serializers.ValidationError('Invalid email')
